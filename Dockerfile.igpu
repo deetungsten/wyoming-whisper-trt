@@ -111,5 +111,9 @@ EXPOSE 10300
 # ✅ Runtime check: will actually assert CUDA is usable *once the container runs on Jetson*
 HEALTHCHECK --interval=1m --timeout=5s --retries=3 CMD python3 -c "import torch; assert torch.cuda.is_available()" || exit 1
 
+# 🛠 Copy run script
+WORKDIR /
+COPY ./run.sh ./
+
 # 🚀 Default entrypoint: start Wyoming Whisper TRT server
 ENTRYPOINT ["bash", "/run.sh"]
