@@ -4,7 +4,6 @@ import subprocess
 import venv
 from pathlib import Path
 import os
-import platform
 
 _DIR = Path(__file__).parent
 _PROGRAM_DIR = _DIR.parent
@@ -24,13 +23,8 @@ builder.create(_VENV_DIR)
 pip = [context.env_exe, "-m", "pip"]
 subprocess.check_call(pip + ["install", "--upgrade", "pip", "setuptools", "wheel"])
 
-# Determine which requirements file to use
-arch = platform.machine()
-is_jetson = arch == "aarch64" and Path("/etc/nv_tegra_release").exists()
-req_file = _PROGRAM_DIR / ("requirements-jetson.txt" if is_jetson else "requirements.txt")
-
 # Install core requirements
-subprocess.check_call(pip + ["install", "-r", str(req_file)])
+subprocess.check_call(pip + ["install", "-r", "requirements.txt"])
 
 # Optionally install dev requirements
 if args.dev:
