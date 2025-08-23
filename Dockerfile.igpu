@@ -3,15 +3,19 @@ FROM nvcr.io/nvidia/tensorrt:25.08-py3-igpu
 
 WORKDIR /usr/src
 
-# Update and install python3-venv, clone the repository, and run the setup script
+# Update and install dependencies
 RUN apt-get update && apt-get install -y \
     python3-venv \
     ffmpeg \
     git \
-    && git clone --recursive https://github.com/JonahMMay/wyoming-whisper-trt \
-    && cd wyoming-whisper-trt \
-    && chmod +x ./script/setup \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy local source code
+COPY . /usr/src/wyoming-whisper-trt
+
+# Run setup
+RUN cd wyoming-whisper-trt \
+    && chmod +x ./script/setup
 
 WORKDIR /
 COPY ./run.sh ./

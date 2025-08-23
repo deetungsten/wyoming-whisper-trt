@@ -1,6 +1,8 @@
 services:
   wyoming-whisper-trt:
-    image: captnspdr/wyoming-whisper-trt:latest-igpu
+    build:
+      context: .
+      dockerfile: Dockerfile.igpu
     container_name: wyoming-whisper-trt
     restart: unless-stopped
     environment:
