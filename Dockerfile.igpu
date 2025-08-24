@@ -24,10 +24,12 @@ RUN cd wyoming-whisper-trt \
        packaging~=25.0 \
        onnx-graphsurgeon==0.5.8 \
        torch==2.8.0 \
-    && cd torch2trt \
-    && ../.venv/bin/python setup.py install \
-    && cd .. \
     && chmod +x ./script/setup
+
+# Set up library paths and install torch2trt
+ENV LD_LIBRARY_PATH=/usr/local/lib/python3.12/dist-packages/tensorrt_libs:$LD_LIBRARY_PATH
+RUN cd wyoming-whisper-trt/torch2trt \
+    && ../.venv/bin/python setup.py install
 
 WORKDIR /
 COPY ./run.sh ./
