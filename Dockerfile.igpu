@@ -15,7 +15,8 @@ COPY . /usr/src/wyoming-whisper-trt
 
 # Run setup
 RUN cd wyoming-whisper-trt \
-    && chmod +x ./script/setup
+    && chmod +x ./script/setup \
+    && ./script/setup
 
 WORKDIR /
 COPY ./run.sh ./
