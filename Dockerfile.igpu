@@ -13,9 +13,9 @@ RUN apt-get update && apt-get install -y \
 # Copy local source code
 COPY . /usr/src/wyoming-whisper-trt
 
-# Create virtual environment and install dependencies (skip TensorRT packages for Jetson)
+# Create virtual environment with system site-packages to access TensorRT
 RUN cd wyoming-whisper-trt \
-    && python3 -m venv .venv \
+    && python3 -m venv --system-site-packages .venv \
     && .venv/bin/pip install --upgrade pip setuptools wheel \
     && .venv/bin/pip install \
        wyoming==1.7.2 \
