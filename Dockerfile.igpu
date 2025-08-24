@@ -13,11 +13,17 @@ RUN apt-get update && apt-get install -y \
 # Copy local source code
 COPY . /usr/src/wyoming-whisper-trt
 
-# Create virtual environment and install dependencies manually
+# Create virtual environment and install dependencies (skip TensorRT packages for Jetson)
 RUN cd wyoming-whisper-trt \
     && python3 -m venv .venv \
     && .venv/bin/pip install --upgrade pip setuptools wheel \
-    && .venv/bin/pip install --extra-index-url https://pypi.nvidia.com --extra-index-url https://download.pytorch.org/whl/cu128 -r requirements.txt \
+    && .venv/bin/pip install --extra-index-url https://download.pytorch.org/whl/cu128 \
+       wyoming==1.7.2 \
+       openai-whisper==20250625 \
+       psutil~=7.0.0 \
+       packaging~=25.0 \
+       onnx-graphsurgeon==0.5.8 \
+       torch==2.8.0+cu128 \
     && cd torch2trt \
     && ../.venv/bin/python setup.py install \
     && cd .. \
