@@ -26,10 +26,11 @@ RUN cd wyoming-whisper-trt \
        torch==2.8.0 \
     && chmod +x ./script/setup
 
-# Set up library paths and install torch2trt
+# Set up library paths for runtime
 ENV LD_LIBRARY_PATH=/usr/local/lib/python3.12/dist-packages/tensorrt_libs:$LD_LIBRARY_PATH
-RUN cd wyoming-whisper-trt/torch2trt \
-    && ../.venv/bin/python setup.py install
+
+# Note: torch2trt installation skipped due to missing libnvdla_compiler.so
+# Will try to install at runtime or find alternative approach
 
 WORKDIR /
 COPY ./run.sh ./
